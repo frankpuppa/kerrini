@@ -62,3 +62,4 @@ class Viewing(Model):
     video_id = columns.UUID(primary_key=True)
     user_id = columns.UUID(primary_key=True)
     stopped_at = columns.Text(min_length=2, max_length=10)
+

@@ -36,3 +36,6 @@ class RegisterForm(forms.Form):
                 return False
             return self.cleaned_data['password'] == self.cleaned_data['confirm_password']
 
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()

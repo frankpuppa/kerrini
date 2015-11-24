@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
+from mainkerrini.custom_functions import *
+
 from mainkerrini.forms import RegisterForm
+from .forms import UploadFileForm
 
 
 def index(request):
@@ -28,3 +31,17 @@ def register(request):
         form = RegisterForm()
 
     return render(request, 'register.html', {'form': form})
+
+def upload(request):
+    if request.method == 'POST':
+        form2=UploadFileForm()
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            file=request.FILES['file'].name
+            handle_uploaded_file(request.FILES['file'], file)
+            return render(request,'upload.html', {'file':file, 'form':form2})
+    else:
+        form = UploadFileForm()
+    return render (request,'upload.html', {'form': form})
+
+

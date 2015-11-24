@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = (
     'django_cassandra_engine',
     'django.contrib.staticfiles',
-    #'django.contrib.auth',
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -78,8 +78,8 @@ WSGI_APPLICATION = 'kerrini.wsgi.application'
 #
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../database/db.sqlite3'),
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, '../database/db.sqlite3'),
     },
     'cassandra': {
         'ENGINE': 'django_cassandra_engine',
