@@ -34,14 +34,15 @@ def register(request):
 
 def upload(request):
     if request.method == 'POST':
-        form2=UploadFileForm()
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            file=request.FILES['file'].name
-            handle_uploaded_file(request.FILES['file'], file)
-            return render(request,'upload.html', {'file':file, 'form':form2})
+            file=request.FILES['file']
+            handle_uploaded_file(file)
+            return render(request,'upload.html', {'file':file, 'form':form})
     else:
         form = UploadFileForm()
     return render (request,'upload.html', {'form': form})
 
 
+def testvideo(request):
+    return render(request, 'testvideo.html')
