@@ -77,7 +77,7 @@ def upload(request):
             print(newfilename)
             data=dir + "/" + str(newfilename)
             try:
-                 Video.create(video_id=newfilename, correctness=0, title=form.cleaned_data['title'], description=form.cleaned_data['description'], data=data, date_created=datetime.datetime.now())
+                 Video.create(video_id=newfilename, correctness=0, title=form.cleaned_data['title'], description=form.cleaned_data['description'], data=data, date_created=datetime.datetime.now(),video_codec=dir)
             except Video.DoesNotExist:
                  return HttpResponse("LWT failed")
         return render(request,'upload.html', {'form':form})
