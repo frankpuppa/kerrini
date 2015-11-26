@@ -1,6 +1,7 @@
 import uuid
+import magic
 
-media="/srv/www/nginx/media/"
+media="static/videos/"
 
 def handle_uploaded_file(file):
     uuidname=uuid.uuid1()
