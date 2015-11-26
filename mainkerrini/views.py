@@ -64,6 +64,7 @@ def register(request):
 def upload(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
+        form2=UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             file=request.FILES['file']
             if hasattr(file, 'temporary_file_path'):
@@ -80,7 +81,7 @@ def upload(request):
                  Video.create(video_id=newfilename, correctness=0, title=form.cleaned_data['title'], description=form.cleaned_data['description'], data=data, date_created=datetime.datetime.now(),video_codec=dir)
             except Video.DoesNotExist:
                  return HttpResponse("LWT failed")
-        return render(request,'upload.html', {'form':form})
+        return render(request,'upload.html', {'form':form2})
     else:
         form = UploadFileForm()
     return render (request,'upload.html', {'form': form})

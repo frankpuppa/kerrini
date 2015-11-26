@@ -9,9 +9,12 @@
 <body>
 <div class="container">
     <h2>This is the skeleton to upload a video. Please consider that it is a base implementation.</h2>
-        <br/><h2>Best Regards. Frank@Kerrini Team</h2>
+        <h2>Best Regards. Frank@Kerrini Team</h2>
     <form method="POST" enctype="multipart/form-data" action="/upload/">
-        {{ form }}
+        {{ form.title.label }} {{ form.title }} <br/>
+        {{ form.description.label }}{{ form.description }} <br/>
+        {{ form.language.label}} {{ form.language }} <br/><br/>
+          {{ form.file.label }} {{ form.file }}<br/>
          <input type="submit" value="Press"> to upload the file!
 {% csrf_token %}
     </form>
