@@ -73,15 +73,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'kerrini.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-#
+#Database
+#https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+
 DATABASES = {
-    'default': {
+ #   'default': {
 #        'ENGINE': 'django.db.backends.sqlite3',
 #        'NAME': os.path.join(BASE_DIR, '../database/db.sqlite3'),
-    },
-    'cassandra': {
+#    },
+    'default': {
         'ENGINE': 'django_cassandra_engine',
         'NAME': 'kerrini',
         'TEST_NAME': 'test_kerrini',
@@ -94,9 +94,6 @@ DATABASES = {
         }
     }
 }
-
-
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -117,4 +114,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '../static'))
-MEDIA_ROOT= '/srv/www/nginx/media/'
+
+MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, '/mainkerrini/static'))
+PIC = BASE_DIR + MEDIA_ROOT
