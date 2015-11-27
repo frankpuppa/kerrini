@@ -99,7 +99,8 @@ def play(request):
     if filename:
         videos= Video.objects.filter(video_id=filename).allow_filtering()
         video=videos.get()
-        print(video[0])
+        print(video)
+        return render(request, 'play.html', {'video': video})
     return render(request, 'play.html')
 
 

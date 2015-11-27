@@ -2,7 +2,7 @@ import uuid
 from cassandra.cqlengine import columns
 from cassandra.cqlengine.usertype import UserType
 from cassandra.cqlengine.models import Model
-import bcrypt
+#import bcrypt
 from json import JSONEncoder
 from uuid import UUID
 
