@@ -1,4 +1,4 @@
-
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from mainkerrini.custom_functions import *
 from mainkerrini.forms import RegisterForm
@@ -8,6 +8,7 @@ import uuid
 import re
 import magic
 import datetime
+
 
 import os
 
@@ -62,26 +63,40 @@ def register(request):
 
 
 def upload(request):
+
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
-        form2=UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             file=request.FILES['file']
-            if hasattr(file, 'temporary_file_path'):
-                filetype = magic.from_file(file.temporary_file_path(),mime=True).decode()
-            else:
-                filetype = magic.from_buffer(file.read(),mime=True).decode()
+            storage = FileSystemStorage(
+                    location = '/tmp/django',
+                    base_url = '/tmp/django'
+                  )
+            content = request.FILES['file']
+            name = storage.save(None, content)
+            url = storage.url(name)
+            #print(url)
+            filetype = magic.from_file(url,mime=True).decode()
             myreg=re.compile(r'(mp4)|(ogg)|(webm)',re.I)
             ext=myreg.search(filetype)
-            dir=ext.group(0).lower()
-            newfilename=handle_uploaded_file(file, dir)
-            print(newfilename)
-            data=dir + "/" + str(newfilename)
-            try:
-                 Video.create(video_id=newfilename, correctness=0, title=form.cleaned_data['title'], description=form.cleaned_data['description'], data=data, date_created=datetime.datetime.now(),video_codec=dir)
-            except Video.DoesNotExist:
-                 return HttpResponse("LWT failed")
-        return render(request,'upload.html', {'form':form2})
+            if ext:
+                newfilename=move_file(url,ext.group(0).lower())
+            # if hasattr(file, '/tmp/'):
+                 #filetype = magic.from_file(file.temporary_file_path(),mime=True).decode()
+            # else:
+            #     filetype = magic.from_buffer(file.read(),mime=True).decode()
+            # myreg=re.compile(r'(mp4)|(ogg)|(webm)',re.I)
+            # ext=myreg.search(filetype)
+           # print(filetype)
+                dir=ext.group(0).lower()
+            # newfilename=handle_uploaded_file(file, dir)
+            # #print(newfilename)
+                data=dir + "/" + str(newfilename)
+                try:
+                     Video.create(video_id=newfilename, correctness=0, title=form.cleaned_data['title'], description=form.cleaned_data['description'], data=data, date_created=datetime.datetime.now(),video_codec=dir)
+                except Video.DoesNotExist:
+                     return HttpResponse("LWT failed")
+        return render(request,'upload.html', {'form':form})
     else:
         form = UploadFileForm()
     return render (request,'upload.html', {'form': form})

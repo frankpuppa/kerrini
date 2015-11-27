@@ -106,7 +106,8 @@ class UploadFileForm(forms.Form):
         myreg=re.compile(r'(mp4)|(ogg)|(webm)',re.I)
         file = self.cleaned_data.get("file", False)
         filetype=myreg.search((magic.from_buffer(file.read(), mime=True)).decode())
-        if filetype:
+        print(filetype)
+        if filetype !=None:
             return file
         else:
             raise forms.ValidationError("Wrong file type")
