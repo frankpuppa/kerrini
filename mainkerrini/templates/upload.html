@@ -15,6 +15,7 @@
         {{ form.description.label }}{{ form.description }} <br/>
         {{ form.language.label}} {{ form.language }} <br/><br/>
           {{ form.file.label }} {{ form.file }}<br/>
+        {{ form.file.errors }}
          <input type="submit" value="Press"> to upload the file!
 {% csrf_token %}
     </form>

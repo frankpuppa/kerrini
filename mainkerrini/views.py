@@ -63,7 +63,6 @@ def register(request):
 
 
 def upload(request):
-
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
@@ -75,23 +74,15 @@ def upload(request):
             content = request.FILES['file']
             name = storage.save(None, content)
             url = storage.url(name)
-            #print(url)
+
             filetype = magic.from_file(url,mime=True).decode()
             myreg=re.compile(r'(mp4)|(ogg)|(webm)',re.I)
             ext=myreg.search(filetype)
             if ext:
                 newfilename=move_file(url,ext.group(0).lower())
-            # if hasattr(file, '/tmp/'):
-                 #filetype = magic.from_file(file.temporary_file_path(),mime=True).decode()
-            # else:
-            #     filetype = magic.from_buffer(file.read(),mime=True).decode()
-            # myreg=re.compile(r'(mp4)|(ogg)|(webm)',re.I)
-            # ext=myreg.search(filetype)
-           # print(filetype)
                 dir=ext.group(0).lower()
-            # newfilename=handle_uploaded_file(file, dir)
-            # #print(newfilename)
-                data=dir + "/" + str(newfilename)
+                #data=dir + "/" + str(newfilename)
+                data=dir #Check with the guys what they want
                 try:
                      Video.create(video_id=newfilename, correctness=0, title=form.cleaned_data['title'], description=form.cleaned_data['description'], data=data, date_created=datetime.datetime.now(),video_codec=dir)
                 except Video.DoesNotExist:
@@ -103,6 +94,12 @@ def upload(request):
 
 
 def play(request):
+    current_url = request.get_full_path()
+    filename=current_url.rsplit('/',1)[1]
+    if filename:
+        videos= Video.objects.filter(video_id=filename).allow_filtering()
+        video=videos.get()
+        print(video[0])
     return render(request, 'play.html')
 
 

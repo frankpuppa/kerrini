@@ -94,6 +94,7 @@ class AccountForm(forms.Form):
 
 
 class UploadFileForm(forms.Form):
+
     file = forms.FileField()
     title= forms.CharField(max_length=50, required='true', widget=forms.TextInput(attrs=
                                 {'class': 'form-control', 'required': 'true', 'placeholder': 'Title'}))
@@ -102,16 +103,13 @@ class UploadFileForm(forms.Form):
     description=forms.CharField(max_length=200, required='true', widget=forms.TextInput(attrs=
                                 {'class': 'form-control', 'required': 'true', 'placeholder': 'Description'}))
     def clean_file(self):
-
         myreg=re.compile(r'(mp4)|(ogg)|(webm)',re.I)
         file = self.cleaned_data.get("file", False)
         filetype=myreg.search((magic.from_buffer(file.read(), mime=True)).decode())
-        print(filetype)
-        if filetype !=None:
-            return file
-        else:
+        #print(filetype)
+        if filetype is None:
             raise forms.ValidationError("Wrong file type")
-
+        return file
 
 class ImageForm(forms.Form):
     image=forms.FileField(label="select image to upload")
